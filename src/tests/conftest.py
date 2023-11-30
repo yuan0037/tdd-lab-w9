@@ -19,6 +19,7 @@ def test_database():
     yield db  # testing happens here
     db.session.remove()
     db.drop_all()
+    
 
 @pytest.fixture(scope='function')
 def add_user():

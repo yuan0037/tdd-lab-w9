@@ -95,3 +95,39 @@ def test_all_users(test_app, test_database, add_user):
     assert 'john@algonquincollege.com' in data[0]['email']
     assert 'fletcher' in data[1]['username']
     assert 'fletcher@notreal.com' in data[1]['email']
+
+def test_edit_user(test_app, test_database, add_user):
+    client = test_app.test_client()
+    # create joey first
+    user = add_user('joey', 'joey@algonquincollege.com')
+    # update joey to peter
+    resp = client.put(
+        f'/users/{user.id}',
+        data=json.dumps({
+            'username': 'peter',
+            'email': 'peter@algonquincollege.com'
+        }),
+        content_type='application/json',
+    )
+    
+    # verify peter
+    resp = client.get(f'/users/{user.id}')    
+    data = json.loads(resp.data.decode())
+    assert resp.status_code == 200    
+    assert 'peter' in data['username']
+    assert 'peter@algonquincollege.com' in data['email']
+    
+    
+def test_delete_user(test_app, test_database, add_user):
+    client = test_app.test_client()
+    user = add_user('tommy', 'tommy@algonquincollege.com')
+
+    # create tommy first
+    resp = client.delete(
+        f'/users/{user.id}',        
+        content_type='application/json',
+    )
+
+    data = json.loads(resp.data.decode())   
+    assert resp.status_code == 200    
+    assert 'user was deleted!' in data['message']    
