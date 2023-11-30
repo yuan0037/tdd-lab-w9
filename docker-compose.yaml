@@ -11,7 +11,6 @@ services:
     ports:
       - 5004:5000
     environment:
-      - FLASK_APP=src/__init__.py
       - FLASK_DEBUG=1
       - FLASK_ENV=development
       - APP_SETTINGS=src.config.DevelopmentConfig  #new
@@ -19,12 +18,12 @@ services:
       - DATABASE_TEST_URL=postgresql://postgres:postgres@api-db:5432/api_test  # new
     depends_on:  # new
       - api-db
-  api-db:  # new
-      build:
-        context: ./src/db
-        dockerfile: Dockerfile
-      expose:
-        - 5432
-      environment:
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
+  api-db:  # new      
+    build:
+      context: ./src/db
+      dockerfile: Dockerfile
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

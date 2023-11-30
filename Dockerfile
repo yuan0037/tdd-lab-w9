@@ -14,6 +14,7 @@ RUN apt-get update \
   && apt-get -y install netcat gcc postgresql \
   && apt-get clean
 
+
 # add and install requirements
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
